@@ -1,0 +1,63 @@
+{
+  "name": "doctor-prescription-app",
+  "description": "Doctor Prescription App",
+  "author": "Doctor Prescription App",
+  "private": true,
+  "version": "2.0.7",
+  "type": "module",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev": "vite",
+    "dev:server": "cd server && node --watch index.js",
+    "dev:all": "npx concurrently \"npm run dev\" \"npm run dev:server\" -n \"REACT,API\" -c \"cyan,green\"",
+    "build": "vite build",
+    "desktop:build": "npm run build && node scripts/prepare-release.mjs && electron-builder --win portable --config.directories.output=release-portable && electron-builder --win nsis --config.directories.output=release-installer",
+    "desktop:release": "node scripts/release.mjs",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "html2canvas": "^1.4.1",
+    "jspdf": "^4.2.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.18.3"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.19",
+    "concurrently": "^9.0.1",
+    "electron": "^44.3.0",
+    "electron-builder": "^26.0.12",
+    "postcss": "^8.4.40",
+    "tailwindcss": "^3.4.7",
+    "vite": "^8.2.1"
+  },
+  "build": {
+    "appId": "com.doctorprescription.app",
+    "productName": "Doctor Prescription App",
+    "asar": false,
+    "compression": "store",
+    "directories": {
+      "output": "release-portable"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "server/**/*",
+      "package.json",
+      ".env.example"
+    ],
+    "extraFiles": [
+      {
+        "from": ".env.example",
+        "to": ".env"
+      }
+    ],
+    "win": {
+      "signExecutable": false,
+      "target": [
+        "portable"
+      ]
+    }
+  }
+}
